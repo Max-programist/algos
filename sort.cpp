@@ -1,38 +1,40 @@
 #include <iostream>
 #include <vector>
 
+struct list {
+    int car;
+    struct list* next;
+};
 
 bool find(const std::vector<int> &arr, int num);
 void sort(std::vector<int> &arr);
 void reverso(std::vector<int> &arr);
 void insert_left(int *arr, int num, int elem);
+void print_list(struct list* node);
+bool find_car(struct list* node, int nom);
+struct list*  del_elem(struct list* node, int nom);
+struct list* create_elem(int nom);
+void free_list(struct list* node); 
+void add_back(struct list* node, int nom);
 
 int main() {
-    std::cout << "Hello World" << std::endl;
-                               
-    //std::vector<int> arr = {486, 15, 27, 126, 2};
 
-    // sort(arr);
-    // std:: cout << find(arr, 235678986789) << std::endl;
-    //reverso(arr);
-    int arr[7] = {0, 65, 11, 35, 74, 95};
+
+
+     struct list* home1 = create_elem(300); 
+     add_back(home1, 115);
+     add_back(home1, 216);
+     add_back(home1, 305);
+
+     struct list*  head = home1;
+
+     head = del_elem(head, 115);
+     print_list(head);
+     free_list(head);
     
-    insert_left(arr, 6, 110);
-
-
-    for(int i = 0; i < 7; i++) {
-        std::cout << arr[i] << " ";
-    }
-    std:: cout << std::endl;
-
     return 0;
 }
-//ob = 0       
-//                                  i = 0;     j = 1
-//                                     85        49
-//min = 0
-// arr[j] = 49
-// 85, 49, 20, 35, 432, 99, 81, 47
+
 void sort(std::vector<int> &arr) {
     int temp = 0;
     int count = 0;
@@ -95,4 +97,95 @@ void insert_left(int *arr, int num, int elem) {
     arr[0] = elem;
 
 
+}
+
+
+void print_list(struct list* node) {
+
+    for(; node != NULL;) {
+        std::cout << node->car << std::endl;
+        node = node->next;
+    }
+}
+
+
+bool find_car(struct list* node, int nom) {
+    bool flag = false;
+    for(; node != NULL; ) {
+        if(nom == node->car) {
+            flag = true;
+        } 
+        node = node->next;
+    }
+
+    return flag;
+}
+// 0 ->  1  2 3
+struct list* add_elem_head(struct list* node, int nom) {
+    struct list* temp = (struct list*)malloc(sizeof(struct list));
+    temp->next = node;
+    temp->car = nom;
+    return temp;
+}
+
+//prinimaet: ykazatel na golovy spiska, nomer mashini kotoryu mi ydalyaem
+//vozvrashaet ykazatel na golovy spiska
+//                                             115
+struct list*  del_elem(struct list* node, int nom) {
+    struct list* result = node; 
+    struct list* prev = NULL;
+    for(; node != NULL;) {
+        if(node->car == nom) {
+            if(node->next == NULL) {
+                std::cout << "log111" << std::endl;
+                prev->next = NULL;
+                free(node);
+                break; 
+            } else if(prev == NULL) {
+                    std::cout << "log222" << std::endl;
+
+                result = node->next;
+                free(node);
+                break;
+            }  else{
+                std::cout << "log234567" << std::endl;
+                prev->next = node->next;
+                free(node);
+                break;
+            }
+
+        }    
+        prev = node;
+        node = node->next;
+    }
+    
+    return result;
+}
+    
+
+
+struct list* create_elem(int nom) {
+    struct list* result = (struct list*)malloc(sizeof(struct list));
+    result->car = nom;
+    result->next = NULL;
+    return result;
+}
+
+void free_list(struct list* node) {
+    for(; node != NULL; ) {
+        struct list* temp = node;
+        node = node->next;
+        free(temp);
+        temp = NULL;
+    }
+}
+
+void add_back(struct list* node, int nom) {
+    for(; node != NULL;) {
+        if(node->next == NULL) {
+            node->next = create_elem(nom);
+            break;
+        }
+        node = node->next;
+    }
 }
