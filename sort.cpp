@@ -15,23 +15,16 @@ bool find_car(struct list* node, int nom);
 struct list*  del_elem(struct list* node, int nom);
 struct list* create_elem(int nom);
 void free_list(struct list* node); 
-void add_back(struct list* node, int nom);
+struct list* add_back(struct list* node, int nom);
 
 int main() {
+    struct list* head = add_back(NULL, 1);
+    add_back(head, 2);
+    add_back(head, 3);
 
 
-
-     struct list* home1 = create_elem(300); 
-     add_back(home1, 115);
-     add_back(home1, 216);
-     add_back(home1, 305);
-
-     struct list*  head = home1;
-
-     head = del_elem(head, 115);
-     print_list(head);
-     free_list(head);
-    
+    print_list(head);
+    free_list(head);
     return 0;
 }
 
@@ -180,12 +173,20 @@ void free_list(struct list* node) {
     }
 }
 
-void add_back(struct list* node, int nom) {
-    for(; node != NULL;) {
-        if(node->next == NULL) {
-            node->next = create_elem(nom);
-            break;
+struct list* add_back(struct list* node, int nom) {
+    struct list* result = node;
+    if(node == NULL)  {
+        node = create_elem(nom);
+        result = node;
+    } else {
+        for(; node != NULL;) {
+            if(node->next == NULL) {
+                node->next = create_elem(nom);
+                break;
+            }
+            node = node->next;
         }
-        node = node->next;
     }
+
+    return result;
 }
