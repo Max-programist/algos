@@ -2,9 +2,10 @@
 
 void print_list(struct list* node) {
     for(; node != NULL;) {
-        std::cout << node->elem << std::endl;
+        std::cout << node->elem << " --> ";
         node = node->next;
     }
+    std::cout << "NULL\n";
 }
 
 bool find_elem(struct list* node, int elem) {
@@ -106,4 +107,34 @@ struct list* add_front(struct list* node, int elem) {
         node->next = temp;
     }
     return result;
+}
+
+bool swap_nodes(struct list* node1, struct list* node2) {
+    int temp = node1->elem;
+    node1->elem = node2->elem;
+    node2->elem = temp;
+    return true;
+}
+
+
+void sort_list(struct list* head) {
+    for( ;head != NULL; ) {
+        for(struct list* temp = head->next; temp != NULL ; temp = temp->next) {
+            if(temp->elem < (*head).elem) {
+                swap_nodes(head, temp);
+            }
+        }
+        head = head->next;
+    }   
+}
+
+
+int size_list(struct list* head) {
+    int counter = 0;
+
+    for(;head != NULL; head = head->next) {
+        counter += 1;
+    }
+    
+    return counter;
 }
