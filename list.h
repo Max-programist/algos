@@ -13,8 +13,32 @@ class MyList {
             result->elem = elem;
             result->next = NULL;
             return result;  
+              
         }
     public:
+    //2->5->3->1->NULL 
+        void remove(int elem) {
+            struct list* temp = head;
+            struct list* prev = NULL;
+            for(;temp != NULL;) {
+                
+                if((*temp).elem == elem) {
+                    if(prev != NULL) {
+                        prev->next = temp->next;
+                    } else {
+                        head = temp->next;
+                    }
+                    free(temp);
+                    temp = NULL;
+                    break;   
+                }
+                prev = temp; 
+                if(temp != NULL) {
+                    temp = temp->next;
+                }
+            }
+        }
+
         void add(int elem) {
             struct list* node = create_elem(elem);
             if(head == NULL) {
@@ -27,8 +51,27 @@ class MyList {
                 temp->next = node;
             }
         }
+        void show() {// 100 21 377 NUll
+            struct list* temp = head;
+            for(; temp != NULL; ) {
+                std::cout << temp->elem << "->" ;
+                temp = temp->next;
+            } 
+            std::cout << "NULL"<< std::endl; 
+        }
         MyList() {
-            head = NULL;   
+            head = NULL;
+            std::cout << "Dosvidos \n";
+
+        };
+        ~MyList() {
+            std::cout << "Gabella \n";
+            for(; head != NULL; ) {
+                struct list* temp = head;
+                head = head->next;
+                free(temp);
+
+            } 
         };
 
 };
@@ -86,12 +129,10 @@ class Human {
 
 };
 
-struct list* create_elem(int elem);
 struct list* del_elem(struct list* node, int elem);
 struct list* add_back(struct list* node, int elem);
 struct list* add_front(struct list* node, int elem);
 void free_list(struct list* node); 
-void print_list(struct list* node);
 bool find_elem(struct list* node, int elem);
 bool swap_nodes(struct list* node1, struct list* node2);
 void sort_list(struct list* head);
