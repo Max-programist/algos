@@ -3,12 +3,14 @@
 
 int main() {
     MyList example;   
-    example.add(2);
-    example.add(5);
-    example.add(3);
-    example.add(1);
+    example.add_front(1);
+    example.add_front(5);
+    example.add_front(3);
+    example.add_front(8);
+    example.add_front(0);
+    example.add_front(18);
+    example.sort();
     example.show();
-    example.remove(5);
-    example.show();
+    example.free_list();
     return 0;
 }
